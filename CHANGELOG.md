@@ -2,6 +2,14 @@
 
 All notable changes to `php-filename-sanitize` will be documented in this file.
 
+## 1.?.0 - 2026-08-15
+
+### What's Changed
+
+* Enable building with PHP 8.4
+
+**Full Changelog**: https://github.com/OndrejVrto/php-filename-sanitize/compare/1.5.0...1.6.0
+
 ## 1.6.0 - 2024-04-17
 
 ### What's Changed
