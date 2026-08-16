@@ -18,16 +18,23 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: php-actions/composer@v6
-
-      - name: PHPUnit Tests
-        uses: php-actions/phpunit@master
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          # version: 9.5.26
-          php_version: ${{ matrix.php }}
-          php_extensions: xdebug
-          bootstrap: vendor/autoload.php
-          configuration: phpunit.xml.dist
-          args: --coverage-text
+          php-version: ${{ matrix.php }}
+          extensions: xdebug, dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: none
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install dependencies
+        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
+      - name: Execute tests
+        run: vendor/bin/pest
         env:
           XDEBUG_MODE: coverage
+
